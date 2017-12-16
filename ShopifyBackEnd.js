@@ -1,4 +1,6 @@
 const requestModule = require('request') //npm module for easy http requests
+const util = require('util')
+
 var url = 'https://backend-challenge-summer-2018.herokuapp.com/challenges.json?id=1&page=1';
 var allData = [] ;
 pageCounter = 1;
@@ -57,7 +59,6 @@ function buildResponse(jsonObj){
             rootNodes.push(menu[i]);
         }
     }
-    //console.log(rootNodes)
     //Check if valid
     for(var i = 0 ; i < rootNodes.length ;i++){
         if( validMenuParent(rootNodes[i]) === false){
@@ -70,14 +71,12 @@ function buildResponse(jsonObj){
             validMenu.push(rootNodes[i])
         }
     }
-    //console.log(validMenu);
-    //console.log(invalidMenu);
+
 
     //--Valid object
     response.valid_menus = [];
     response.invalid_menus = [];
-    //response.invalid_menus.push(buildResponseObj(invalidMenu[0]));
-    
+
     
     for(var i = 0 ; i < validMenu.length ; i++){
         response.valid_menus.push(buildResponseObj(validMenu[i]));
@@ -88,7 +87,7 @@ function buildResponse(jsonObj){
         response.invalid_menus.push(buildResponseObj(invalidMenu[i]));
     }
     
-    console.log(response);
+    console.log(util.inspect(response, false, null));
 }
 
 //Build the response
@@ -97,8 +96,9 @@ function buildResponseObj(node){
     response.root_id = node.id;
     
     buildChildren(node);
-    console.log(childArray);
-    
+    //console.log(childArray);
+    response.children= childArray;
+    childArray = [];
     return(response);  
 }
 
