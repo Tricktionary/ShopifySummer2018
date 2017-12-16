@@ -4,6 +4,7 @@ var allData = [] ;
 pageCounter = 1;
 var urlArr = [];
 var masterMenu = [];
+var childArray = [];
 
 /*
     MAIN
@@ -27,7 +28,6 @@ requestModule.get(url, function(err, res, data){
     }
 
     //Wait 4 Seconds for the API Response
-     
     setTimeout(function(){
             for(var i = 0 ; i <allData.length; i++){
                 for(var x = 0 ; x < allData[i].length ; x++){
@@ -63,7 +63,7 @@ function buildResponse(jsonObj){
         if( validMenuParent(rootNodes[i]) === false){
             invalidMenu.push(rootNodes[i]);
         }
-        if( validTraverseCheck(rootNodes[i]) === false){
+        else if( validTraverseCheck(rootNodes[i]) === false){
             invalidMenu.push(rootNodes[i]);
         }
         else{
@@ -76,6 +76,9 @@ function buildResponse(jsonObj){
     //--Valid object
     response.valid_menus = [];
     response.invalid_menus = [];
+    //response.invalid_menus.push(buildResponseObj(invalidMenu[0]));
+    
+    
     for(var i = 0 ; i < validMenu.length ; i++){
         response.valid_menus.push(buildResponseObj(validMenu[i]));
     }
@@ -84,7 +87,7 @@ function buildResponse(jsonObj){
     for(var i = 0 ; i < invalidMenu.length ; i++){
         response.invalid_menus.push(buildResponseObj(invalidMenu[i]));
     }
-
+    
     console.log(response);
 }
 
@@ -92,15 +95,37 @@ function buildResponse(jsonObj){
 function buildResponseObj(node){
     var response = {};
     response.root_id = node.id;
-
-    var currentNode        = node.id;
-    var currNodeChildren   = node.child_ids;
-
-    var children;
-
     
+    buildChildren(node);
+    console.log(childArray);
     
     return(response);  
+}
+
+//Build child array
+function buildChildren(node){
+    var found = false;
+    //Does it already exist 
+    for(var i = 0 ; i < node.child_ids.length ; i++){
+        for(var x = 0 ;x < childArray.length ; x++){
+            if(childArray[x] === node.child_ids[i]){
+                return;
+            }
+        }
+    }  
+    //Nope
+    for(var i = 0 ; i < node.child_ids.length ; i++){
+        childArray.push(node.child_ids[i]);
+    }
+    
+    for(var x = 0 ; x < node.child_ids.length; x++){
+        for(var i = 0 ; i < masterMenu.length; i++){
+            if(masterMenu[i].id === node.child_ids[x]){
+                buildChildren(masterMenu[i]);
+            }
+        }
+    } 
+    return;   //Done looping
 }
 
 
