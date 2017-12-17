@@ -2,4 +2,4 @@
 
 To Run: <br>
 npm install <br>
-node ShopifyBackEnd.js <br>
+node script.js <br>

@@ -1,3 +1,10 @@
+/*
+    Created By: Andy Bui
+    In order to run 
+        -npm install 
+        -node script.js
+    This Should work if ID is incremented
+*/
 const requestModule = require('request') //npm module for easy http requests
 const util = require('util')
 
