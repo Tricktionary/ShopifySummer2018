@@ -1,0 +1,11 @@
+Answer #1:
+{ valid_menus: 
+   [ { root_id: 2, children: [ 4, 5, 8, 6 ] },
+     { root_id: 9, children: [ 10, 11, 12, 13, 14 ] } ],
+  invalid_menus: [ { root_id: 1, children: [ 3, 7, 15, 1 ] } ] }
+
+Answer #2:
+{ valid_menus: 
+   [ { root_id: 2, children: [ 8, 9, 11, 10 ] },
+     { root_id: 12, children: [ 13, 14, 15, 16, 17, 21 ] } ],
+  invalid_menus: [ { root_id: 1, children: [ 3, 4, 5, 18, 6, 7, 19, 20, 1 ] } ] }
